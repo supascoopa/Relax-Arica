@@ -21,7 +21,8 @@
         array(
             'class'=>'bootstrap.widgets.TbMenu',
             'items'=>array(
-                array('label'=>'Home', 'url'=>array('/site/index')),
+                array('label'=>'Inicio', 'url'=>array('/site/index')),
+				array('label'=>'Usuarios', 'url'=>array('/Usuario/index'),'visible'=>Yii::app()->user->esAdmin()),
                 array('label'=>utf8_encode('Iniciar Sesión'), 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
                 array('label'=>utf8_encode('Cerrar Sesión'). '('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
             ),

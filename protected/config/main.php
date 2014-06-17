@@ -49,6 +49,7 @@ return array(
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
+			'class' => 'WebUser',
 		),
 		// uncomment the following to enable URLs in path-format
 		
@@ -60,20 +61,20 @@ return array(
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
 		),
-		
+		/*
 		'db'=>array(
 			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
 		),
 		// uncomment the following to use a MySQL database
-		/*
+		*/
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=testdrive',
+			'connectionString' => 'mysql:host=localhost;dbname=relaxarica',
 			'emulatePrepare' => true,
 			'username' => 'root',
 			'password' => '',
 			'charset' => 'utf8',
 		),
-		*/
+		
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'site/error',
@@ -82,16 +83,17 @@ return array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
 				array(
-					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
-				),
-				// uncomment the following to show log messages on web pages
-				/*
-				array(
-					'class'=>'CWebLogRoute',
-				),
-				*/
-			),
+            'class' => 'CFileLogRoute',
+            'levels' => 'trace, info, error, warning, vardump',
+        ),
+        // uncomment the following to show log messages on web pages
+        array(
+            'class' => 'CWebLogRoute',
+            'enabled' => YII_DEBUG,
+            'levels' => 'error, warning, trace, notice',
+            'categories' => 'application',
+            'showInFireBug' => false,
+        ),),
 		),
 	),
 

@@ -24,7 +24,7 @@ body{
 }
 
 .navbar .nav > li {
-	line-height: 40px !important;
+	line-height: 20px !important;
 }
 
 .navbar-inner{
@@ -37,4 +37,17 @@ body{
 
 .navbar-fixed-top{
 	position: static !important;
+}
+
+.breadcrumb{
+	background-color: transparent !important; 
+}
+
+.breadcrumb > li{
+	text-shadow: none !important;
+}
+
+.form-actions{
+	background-color: transparent !important; 
+	border-top: none !important; 
 }

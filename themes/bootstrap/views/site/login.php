@@ -5,40 +5,34 @@
 
 $this->pageTitle=Yii::app()->name . ' - Login';
 $this->breadcrumbs=array(
-	'Login',
-);
+	'Login',);
 ?>
 
-<h1>Login</h1>
-
-<p>Please fill out the following form with your login credentials:</p>
-
+<h1>Iniciar <?php echo utf8_encode('Sesión');?></h1>
 <div class="form">
-
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 	'id'=>'login-form',
     'type'=>'horizontal',
 	'enableClientValidation'=>true,
 	'clientOptions'=>array(
 		'validateOnSubmit'=>true,
-	),
-)); ?>
-
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
-	<?php echo $form->textFieldRow($model,'username'); ?>
-
-	<?php echo $form->passwordFieldRow($model,'password',array(
-        'hint'=>'Hint: You may login with <kbd>demo</kbd>/<kbd>demo</kbd> or <kbd>admin</kbd>/<kbd>admin</kbd>',
-    )); ?>
-
-	<?php echo $form->checkBoxRow($model,'rememberMe'); ?>
+	),)); ?>
+	<p class="note">Los campos con <span class="required">*</span> son necesarios.</p>
+	
+	<div class="row">
+	<?php echo $form->textFieldRow($model,'login'); ?>
+	<?php echo $form->error($model,'login'); ?>
+	</div>
+	<div class="row">
+	<?php echo $form->passwordFieldRow($model,'pass'); ?>
+	<?php echo $form->error($model,'pass'); ?>
+	</div>
 
 	<div class="form-actions">
 		<?php $this->widget('bootstrap.widgets.TbButton', array(
             'buttonType'=>'submit',
             'type'=>'primary',
-            'label'=>'Login',
+            'label'=>'Entrar',
         )); ?>
 	</div>
 

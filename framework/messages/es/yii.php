@@ -230,7 +230,7 @@ return array (
   '{attribute} "{value}" has already been taken.' => '{attribute} "{value}" ya ha sido tomado.',
   '{attribute} "{value}" is invalid.' => '{attribute} "{value}" es inválido.',
   '{attribute} cannot accept more than {limit} files.' => '{attribute} no puede aceptar más de {limit} archivos.',
-  '{attribute} cannot be blank.' => '{attribute} no puede ser nulo.',
+  '{attribute} cannot be blank.' => '{attribute} no puede estar vacio.',
   '{attribute} is in the list.' => '{attribute} está en la lista.',
   '{attribute} is invalid.' => '{attribute} es inválido.',
   '{attribute} is not a valid URL.' => '{attribute} no es una URL válida.',
