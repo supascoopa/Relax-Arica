@@ -1,5 +1,26 @@
+.wrap{
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -4em;
+}
+
+.pie{
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.nav-relax{
+	background-color: #1b1b1b;
+background-image: -moz-linear-gradient(top, #222222, #111111);
+background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#222222), to(#111111));
+background-image: -webkit-linear-gradient(top, #222222, #111111);
+background-image: -o-linear-gradient(top, #222222, #111111);
+background-image: linear-gradient(to bottom, #222222, #111111);
+background-repeat: repeat-x;
+border-color: #252525;
+}
 #page {
-    padding-top: 60px;
+    padding-top: 20px;
 }
 
 body{
@@ -9,7 +30,7 @@ body{
 
 .nav {
 	padding: 9.5px 15px 9.5px;
-	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3)
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
 }
 
 .navbar .brand {
@@ -51,3 +72,29 @@ body{
 	background-color: transparent !important; 
 	border-top: none !important; 
 }
+
+.partners{
+	list-style-type: none;
+	margin: 0 0 10px 0px;
+}
+.partners a:hover{
+	text-decoration: none !important;
+}
+.tabla th{
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+	border: none !important;
+	text-align: right !important;
+}
+.tabla td{
+	border: none !important;
+}
+.tabla{
+	color:#666;
+	/*background:#eaebec;*/
+	margin:20px;
+	border: none !important;
+}
+.blanco, .blanco a {
+  color: #fff;
+}
+
