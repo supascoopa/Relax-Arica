@@ -1,11 +1,11 @@
 <div class="view">
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('idUsuario')); ?>:</b>
+	<!-- <b><?php echo CHtml::encode($data->getAttributeLabel('idUsuario')); ?>:</b>
 	<?php echo CHtml::link(CHtml::encode($data->idUsuario),array('view','id'=>$data->idUsuario)); ?>
-	<br />
+	<br /> -->
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('nombre')); ?>:</b>
-	<?php echo CHtml::encode($data->nombre); ?>
+	<!-- <b><?php /*echo CHtml::encode($data->getAttributeLabel('nombre')); */?>:</b> -->
+	<b style="font-size: 18px"><?php echo CHtml::link(CHtml::encode($data->nombre),array('view','id'=>$data->idUsuario)); ?></b>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('login')); ?>:</b>

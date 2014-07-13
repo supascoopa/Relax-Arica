@@ -31,8 +31,8 @@ class UsuarioController extends Controller
 				'expression'=>'Yii::app()->user->esAdmin()',
 			),
 			array('allow', // Permite a los usuarios autenticados: las acciones de actualizar y crear
-				'actions'=>array(),
-				'users'=>array('@'),
+				'actions'=>array('update','view'),
+				'expression'=>'!Yii::app()->user->esAdmin() && Yii::app()->user->esPropietario()',
 			),
 			array('deny',  // Rechaza a todos los usuarios
 				'users'=>array('*'),
@@ -66,6 +66,7 @@ class UsuarioController extends Controller
 		{
 			$model->attributes=$_POST['Usuario'];
 			$model->pass = md5($model->pass);
+			$model->pass_repeat = md5($model->pass_repeat);
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->idUsuario));
 		}
@@ -90,6 +91,8 @@ class UsuarioController extends Controller
 		if(isset($_POST['Usuario']))
 		{
 			$model->attributes=$_POST['Usuario'];
+			$model->pass = md5($model->pass);
+			$model->pass_repeat = md5($model->pass_repeat);
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->idUsuario));
 		}

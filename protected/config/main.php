@@ -3,9 +3,29 @@
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/../extensions/bootstrap');
-
+$Online = false;
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
+$db = null;
+if($Online){ // Si el sitio está Online
+	$db = array(
+			'connectionString' => 'mysql:host=localhost;dbname=relaxari_bd',
+			'emulatePrepare' => true,
+			'username' => 'relaxari_root',
+			'password' => 'r314x4r1c4',
+			'charset' => 'utf8',
+		);
+}
+else {
+	$db = array(
+			'connectionString' => 'mysql:host=localhost;dbname=relaxarica',
+			'emulatePrepare' => true,
+			'username' => 'root',
+			'password' => '',
+			'charset' => 'utf8',
+		);
+}
+
 return array(
 	'theme'=>'bootstrap',
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
@@ -68,13 +88,7 @@ return array(
 		),
 		// uncomment the following to use a MySQL database
 		*/
-		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=relaxarica',
-			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => '',
-			'charset' => 'utf8',
-		),
+		'db'=>$db,
 		
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors

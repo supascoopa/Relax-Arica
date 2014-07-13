@@ -30,6 +30,13 @@
 				else echo CHtml::encode('No');
 			?>
 			<br />
+			
+			<b><?php echo CHtml::encode($data->getAttributeLabel('estado')); ?>:</b>
+			<?php 
+				if($data->estado == 0) echo CHtml::encode('Cuenta Deshabilitada');
+				else echo CHtml::encode('Cuenta Habilitada'); 
+			?>
+			<br />
 		<!-- 
 			<b><?php echo CHtml::encode($data->getAttributeLabel('fecha_caduc')); ?>:</b>
 			<?php echo CHtml::encode($data->fecha_caduc); ?>

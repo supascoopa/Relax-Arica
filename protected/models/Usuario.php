@@ -19,6 +19,8 @@ class Usuario extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
+	public $pass_repeat;
+	
 	public function tableName()
 	{
 		return 'usuario';
@@ -36,6 +38,8 @@ class Usuario extends CActiveRecord
 			array('tipo', 'numerical', 'integerOnly'=>true),
 			array('nombre', 'length', 'max'=>45),
 			array('login, pass', 'length', 'max'=>50),
+			array('pass', 'compare'),
+			array('pass_repeat', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('idUsuario, nombre, login, pass, tipo', 'safe', 'on'=>'search'),

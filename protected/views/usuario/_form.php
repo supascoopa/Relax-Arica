@@ -9,12 +9,18 @@
 
 	<?php echo $form->textFieldRow($model,'nombre',array('class'=>'span5','maxlength'=>45)); ?>
 
-	<?php echo $form->textFieldRow($model,'login',array('class'=>'span5','maxlength'=>50)); ?>
+	<?php if(Yii::app()->user->esAdmin()) echo $form->textFieldRow($model,'login',array('class'=>'span5','maxlength'=>50)); ?>
 
 	<?php echo $form->passwordFieldRow($model,'pass',array('class'=>'span5','maxlength'=>50)); ?>
+	
+	<?php echo $form->label($model, utf8_encode('Repita Contraseña'));?>
+	<?php 
+		if(!$model->isNewRecord) $model->pass_repeat = $model->pass;
+		echo $form->passwordField($model,'pass_repeat',array('class'=>'span5','maxlength'=>50)); ?>    
+	<?php echo $form->error($model,'pass_repeat'); ?> 
 
 	<?php /*echo $form->textFieldRow($model,'tipo',array('class'=>'span5'));*/
-		echo $form->dropDownListRow($model,'tipo', array('0'=>'Administrador', '1'=>'Cliente', '2'=>'Escort'),array('class'=>'span5'));
+		if(Yii::app()->user->esAdmin()) echo $form->dropDownListRow($model,'tipo', array('2'=>'Escort', '1'=>'Cliente', '0'=>'Administrador'),array('class'=>'span5'));
 	?>
 
 	<div class="form-actions">

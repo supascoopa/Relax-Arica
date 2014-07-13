@@ -9,22 +9,27 @@
 	");
 
 	/*echo $form->labelEx($model,'foto_perfil');*/
-
-	$this->widget('ext.imageSelect.ImageSelect',  array(
-			'path'=>RelaxArica::FotoPerfil($model->idEscort),
-			'alt'=>'Cambiar Foto',
-			'uploadUrl'=>$this->createUrl('escort/subirfotoperfil', array('file'=>'perfil')),
-					'htmlOptions'=>array('id'=>'FotoPerfil'),
 	
-	));
+	if(!$model->isNewRecord){
+		$Param="";
+		if(isset($model->idEscort)) $Param = $model->idEscort;		
+		
+		$this->widget('ext.imageSelect.ImageSelect',  array(
+				'path'=>RelaxArica::FotoPerfil($model->idEscort),
+				'alt'=>'Cambiar Foto',
+				'uploadUrl'=>$this->createUrl('escort/subirfotoperfil', array('file'=>'perfil', 'id'=>$Param)),
+				'htmlOptions'=>array('id'=>'FotoPerfil'),		
+		));
+	}
+	
 
 	$form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 		'id'=>'escort-perfil-form',
 		'enableAjaxValidation'=>false,
 	)); 
-	echo $form->textField($model,'foto_perfil',array('class'=>'span5','maxlength'=>200,));
+	echo $form->textField($model,'foto_perfil',array('class'=>'span5','maxlength'=>200,'style'=>'visibility:hidden;'));
 	
-	echo'<div class="span7">';
+	echo'<div class="span6">';
  ?>
 
 	<p class="help-block">Los campos con <span class="required">*</span> son necesarios.</p>
@@ -33,24 +38,28 @@
 	
 	<?php 
 		/*echo $form->textFieldRow($model,'idEscort',array('class'=>'span5'));*/
-		if(Yii::app()->user->esAdmin()){ //Si el usuario es administrador
+		if(Yii::app()->user->esAdmin() && $model->isNewRecord){ //Si el usuario es administrador
 			$Pregunta = "Escoja Escort"; 	
 			$UsEscor = Usuario::model()->findAllByAttributes(array('tipo'=>'2'),array('order' => 'idUsuario DESC'));
 			$Escorts = array();
 			foreach($UsEscor as $Us){
 				if(EscortPerfil::model()->countByAttributes(array('idEscort'=>$Us->idUsuario))==0) array_push($Escorts, $Us);
 			}	
-			if($Escorts == null) $Pregunta = "No hay perfil de Escorts";	
+			if(count($Escorts) == 0) $Pregunta = "No hay perfil de Escorts";	
 			
 			$ListaEscorts= CHtml::listData($Escorts, 'idUsuario', 'nombre');
 			echo $form->dropDownListRow($model,'idEscort',$ListaEscorts,array('class'=>'span5', 'prompt'=>$Pregunta));
 		}
-		else $model->idEscort = Yii::app()->user->id;
+		
+		if(Yii::app()->user->esEscort() && $model->isNewRecord){
+			echo $form->textField($model,'idEscort',array('class'=>'span5','style'=>'visibility:hidden;', 'value'=>Yii::app()->user->id));
+			//$model->idEscort = Yii::app()->user->id;
+		}
 	 ?>
 
 	<?php echo $form->textFieldRow($model,'email',array('class'=>'span5','maxlength'=>100)); ?>
 
-	<?php echo $form->textFieldRow($model,'nombre_artistico',array('class'=>'span5','maxlength'=>500)); ?>
+	<?php echo $form->textFieldRow($model,'nombre_artistico',array('class'=>'span5','maxlength'=>1000)); ?>
 
 	<?php /*echo $form->textFieldRow($model,'fecha_inscrip',array('class'=>'span5'));*/
 		if(Yii::app()->user->esAdmin()){ //Si el usuario es administrador
@@ -76,7 +85,7 @@
 		}
 	?>
 
-	<?php echo $form->textFieldRow($model,'idPromo',array('class'=>'span5')); ?>
+	<?php if(!$model->isNewRecord) echo $form->textFieldRow($model,'idPromo',array('class'=>'span5')); ?>
 
 	<?php /*echo $form->textFieldRow($model,'fecha_caduc',array('class'=>'span5'));*/
 		if(Yii::app()->user->esAdmin()){ //Si el usuario es administrador

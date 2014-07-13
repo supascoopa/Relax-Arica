@@ -25,14 +25,20 @@ class EscortController extends Controller
 	 */
 	public function accessRules()
 	{
+		
 		return array(
 			array('allow',  // Permite al administrador todas las acciones
 				'actions'=>array('index','view','SubirFotoPerfil','create','update','admin','delete'),
 				'expression'=>'Yii::app()->user->esAdmin()',
 			),
 			array('allow', // Permite al usuario autenticado crear y actualizar su perfil
-				'actions'=>array('create','update'),
+				'actions'=>array('update','view','SubirFotoPerfil',),
+				'expression'=>'!Yii::app()->user->esAdmin() && Yii::app()->user->esPropietario()',
 				'users'=>array('@'),
+			),
+			array('allow', // Permite al usuario crear su perfil de escort
+					'actions'=>array('create'),
+					'expression'=>'Yii::app()->user->esEscort() && !Yii::app()->user->tienePerfilEscort()',
 			),
 			array('deny',  // Rechaza a todos los otros usuarios
 				'users'=>array('*'),
@@ -66,6 +72,7 @@ class EscortController extends Controller
 		{
 			$model->attributes=$_POST['EscortPerfil'];
 			$model->fecha_inscrip=date("Y-m-d H:i:s");
+			$model->estado=0;
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->idEscort));
 		}
@@ -89,9 +96,15 @@ class EscortController extends Controller
 
 		if(isset($_POST['EscortPerfil']))
 		{
+			$Foto = $model->foto_perfil;				
+			$Dir = str_replace('\\', '/', dirname(dirname(dirname(dirname(__FILE__)))));
+			
 			$model->attributes=$_POST['EscortPerfil'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->idEscort));
+			
+			if($model->save()){
+				if(strlen($Foto)>0) if(file_exists($Dir.$Foto) && $Foto != $model->foto_perfil) unlink($Dir.$Foto);
+				$this->redirect(array('view','id'=>$model->idEscort));				
+			}				
 		}
 
 		$this->render('update',array(
@@ -175,20 +188,37 @@ class EscortController extends Controller
 		$file = CUploadedFile::getInstanceByName('file');
 		// Do your business ... save on file system for example,
 		// and/or do some db operations for example
-		if($file->getExtensionName() == "jpg" || $file->getExtensionName() == "jpeg" || $file->getExtensionName() == "png" ){
-			$urlImagen = 'images/'.$file->getName();
-			$file->saveAs($urlImagen);
-			$Imagen = new ResizeImage($urlImagen);    
-		    $Imagen->resizeTo(130, 130, 'exact');    
-		    $Imagen->saveImage($urlImagen);
-			// return the new file path
-			echo Yii::app()->baseUrl.'/'.$urlImagen;
+		$Carpeta = ""; $Anterior = "";
+		$Ext = strtolower($file->getExtensionName());
+		if($Ext == "jpg" || $Ext == "jpeg" || $Ext == "png" ){	
+				if(isset($_GET['id'])){
+					$Usuario = EscortPerfil::model()->findByAttributes(array('idEscort'=>$_GET['id']));
+					$Anterior = $Usuario->foto_perfil;
+					$Carpeta = $_GET['id'].'/';
+				}		
+				$Dir='images/Perfil/'.$Carpeta;								
+				$NuevoNombre = RelaxArica::StringAleatorio().'.'.$Ext;	
+				if(!is_dir($Dir)) mkdir($Dir);
+					
+				while(file_exists($Dir.$NuevoNombre)) $NuevoNombre = RelaxArica::StringAleatorio().'.'.$Ext;			
+				
+				$urlImagen = $Dir.$NuevoNombre;
+				
+				$Resultado = $file->saveAs($urlImagen); 
+				if($Resultado) {
+					$Imagen = new ResizeImage($urlImagen); 
+					$Imagen->resizeTo(170, 170, 'exact');    
+			    	$Imagen->saveImage($urlImagen);  			    	
+				}
+				echo Yii::app()->baseUrl.'/'.$urlImagen;
 		}
 		else {
-			if(isset(Yii::app()->user->id)){
-				$Usuario = Usuario::model()->findByAttributes(array('idUsuario'=>Yii::app()->user->id));
+			$Foto = Yii::app()->request->baseUrl . '/images/perfil.jpg';
+			if(isset(Yii::app()->user->id) && Yii::app()->user->esEscort() ){
+				$Usuario = EscortPerfil::model()->findByAttributes(array('idEscort'=>Yii::app()->user->id));
+				$Foto = $Usuario->foto_perfil;
 			}
-			$Foto = $Foto = Yii::app()->request->baseUrl . '/images/perfil.jpg';
+			
 			echo $Foto;
 		}
 	}

@@ -48,5 +48,47 @@ class WebUser extends CWebUser{
 		return $this->_modelo;
 	}
 	
+	public function esPropietario(){ //Aqui defino todas las reglas de acceso para los controladores
+		$Contexto = Yii::app()->controller->id;
+		$Accion = Yii::app()->controller->action->id;
+		
+		if(isset($Contexto) && isset($Accion)){
+			switch($Contexto){
+				case 'usuario':{
+					if($Accion == 'view' || $Accion == 'update') if(Yii::app()->user->id == $_GET['id']) return true;
+					break;
+				}
+				case 'escort':{
+					if($Accion == 'create'){ //Si la escort no tiene perfil y está recien accediendo
+						$Escort = EscortPerfil::model()->findByAttributes(array('idEscort'=>Yii::app()->user->id));
+						if(count($Escort)==0) return true;
+					}
+					else if($Accion == 'view' || $Accion == 'update') {
+						if(Yii::app()->user->id == $_GET['id']) return true;
+					}
+					break;
+				}
+				case 'escortImg':{
+					if($Accion == 'view' || $Accion == 'update'){ //Si la escort quiere ver sus fotos
+						$Foto = EscortImg::model()->findByAttributes(array('idEscort_IMG'=>$_GET['id']));
+						if(Yii::app()->user->id == $Foto->idEscort) return true;
+					}
+					
+					break;
+				}
+			}
+		}
+		
+		return false;
+	}
+
+	// Retorna si el usuario es Escort
+	function tienePerfilEscort(){
+		$Escort = EscortPerfil::model()->findByAttributes(array('idEscort'=>Yii::app()->user->id));
+		
+		if($Escort == null) return false;
+		else return true;
+	}
+	
 }
 ?>

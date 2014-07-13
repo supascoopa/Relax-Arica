@@ -7,13 +7,13 @@
  */
 class ImageSelect extends CWidget{
 	private $id;
-	public $text = 'Cambiar Imagen';
+	public $text = ' Subir Foto';
 	private $assetsDir;
 	public $path;
 	public $alt = '';
 	public $uploadUrl;
 	public $htmlOptions=array();
-
+	//$('#div_image_select_".$this->id." img').attr('src', responseText + '?' + new Date().getTime());
 	public function init(){
 		$this->id = uniqid();
 		$dir = dirname(__FILE__) . '/assets';
@@ -23,10 +23,14 @@ class ImageSelect extends CWidget{
 			"$('#div_image_select_".$this->id." form').hide();
 			$('#div_image_select_".$this->id." a').file().choose(function(e, input) {
 				$('#image-select-loading-".$this->id."').show();
+				$('#btnEnviar').prop('disabled', true);	
+				$('#btnEnviar').html('Espere...');	
 				input.appendTo('#div_image_select_".$this->id." form');
 				$('#div_image_select_".$this->id." form').ajaxSubmit({
 					success : function(responseText){
-						$('#div_image_select_".$this->id." img').attr('src', responseText + '?' + new Date().getTime());
+						$('#div_image_select_".$this->id." img').attr('src', responseText);
+						$('#btnEnviar').prop('disabled', false);	
+						$('#btnEnviar').html('Subir');	
 					}
 				});
 			});
@@ -37,7 +41,7 @@ class ImageSelect extends CWidget{
 	}
 
 	public function run(){
-		echo '<div class="span2" style="width: 130px; height: 130px; text-align: center; position: relative;">';
+		echo '<div class="span2" style="text-align: center; position: relative;">';
 		echo '<div class="image-select-loading" id="image-select-loading-'.$this->id.'" style="display: none;">text</div>';
 		echo '<div id="div_image_select_'.$this->id.'" style="display: inline-block; margin-left: auto; margin-right: auto; position: relative; direction: ltr;">';
 			echo CHtml::image($this->path, $this->alt, $this->htmlOptions);

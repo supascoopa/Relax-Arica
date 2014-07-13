@@ -34,8 +34,8 @@
   box-shadow: 0 0 1px rgba(0, 0, 0, 0);
 }
 .grow:hover, .grow:focus, .grow:active {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
+  -webkit-transform: scale(1.02);
+  transform: scale(1.02);
 }
 
 /* Shrink */
@@ -1358,6 +1358,19 @@
 }
 .glow:hover, .glow:focus, .glow:active {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}
+.glow2 {
+  display: inline-block;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: box-shadow;
+  transition-property: box-shadow;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+}
+.glow2:hover, .glow2:focus, .glow2:active {
+  box-shadow: 0 0 15px #9F111B;
 }
 
 /* Box Shadow Outset */
